@@ -14,3 +14,7 @@ class Customer(models.Model):
     comapany_name = models.CharField(max_length=250, blank=True, null=True)
     date_created = models.DateTimeField(blank=True, null=True)
     date_updated = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        # return self.title
+        return 'customer \u2116 %d: %s %s' % (self.customer_id, self.first_name, self.last_name)

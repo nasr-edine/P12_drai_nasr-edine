@@ -5,8 +5,7 @@ from django.db import models
 
 class Customer(models.Model):
     # Field name made lowercase.
-    customer_id = models.IntegerField(
-        db_column='customer_Id', primary_key=True)
+    customer_id = models.BigAutoField(primary_key=True)
     first_name = models.CharField(max_length=25, blank=True, null=True)
     last_name = models.CharField(max_length=25, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)

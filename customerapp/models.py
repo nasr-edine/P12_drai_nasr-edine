@@ -16,5 +16,6 @@ class Customer(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        # return self.title
-        return 'customer \u2116 %d: %s %s' % (self.customer_id, self.first_name, self.last_name)
+        # return a customer name with id
+        # return 'customer \u2116 %d: %s %s' % (self.customer_id, self.first_name, self.last_name)
+        return '%s %s' % (self.first_name, self.last_name)

@@ -1,0 +1,14 @@
+{% block content %}
+<h1>CRM Consumming API</h1>
+<h2>Customers list</h2>
+
+
+<ul>
+    {% for customer in customers %}
+    <li>{{ customer.first_name }} {{ customer.last_name }}</li>
+    {% empty %}
+    <li>Sorry, no customers in this list.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

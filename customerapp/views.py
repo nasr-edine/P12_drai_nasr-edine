@@ -1,25 +1,21 @@
 from django.views.generic import ListView
-from .models import Customer
 from rest_framework import generics
 from .models import Customer
 from .serializers import CustomerSerializer
 
 
+# template
 class CustomerListView(ListView):
     model = Customer
     template_name = 'customers/customer_list.html'
 
 
-class CustomerAPIView(generics.ListAPIView):
+# api
+class CustomertList(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
 
-class ListCustomer(generics.ListAPIView):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-
-class DetailCustomer(generics.RetrieveAPIView):
+class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer

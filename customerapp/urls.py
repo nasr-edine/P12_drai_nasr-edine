@@ -1,17 +1,14 @@
 
 from django.urls import path
 from .views import CustomerListView
-from .views import CustomerAPIView
-from .views import ListCustomer, DetailCustomer
+from .views import CustomertList, CustomerDetail
 
 urlpatterns = [
 
     # with template
-    path('withtemplate', CustomerListView.as_view(), name='home'),
+    path('withtemplate/', CustomerListView.as_view(), name='home'),
 
     # with api
-    path('apiview', CustomerAPIView.as_view()),
-
-    path('<int:pk>/', DetailCustomer.as_view()),
-    path('', ListCustomer.as_view()),
+    path('', CustomertList.as_view()),
+    path('<int:pk>/', CustomerDetail.as_view()),
 ]

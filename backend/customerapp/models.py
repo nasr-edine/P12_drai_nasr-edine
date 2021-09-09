@@ -1,10 +1,7 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Customer(models.Model):
-    # Field name made lowercase.
     customer_id = models.BigAutoField(primary_key=True)
     first_name = models.CharField(max_length=25, blank=True, null=True)
     last_name = models.CharField(max_length=25, blank=True, null=True)
@@ -16,6 +13,5 @@ class Customer(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        # return a customer name with id
         # return 'customer \u2116 %d: %s %s' % (self.customer_id, self.first_name, self.last_name)
         return '%s %s' % (self.first_name, self.last_name)

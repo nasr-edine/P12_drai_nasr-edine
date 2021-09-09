@@ -3,12 +3,36 @@
 <h2>Customers list</h2>
 
 
-<ul>
-    {% for customer in customers %}
-    <li>{{ customer.first_name }} {{ customer.last_name }}</li>
-    {% empty %}
-    <li>Sorry, no customers in this list.</li>
-    {% endfor %}
-</ul>
-
+<table border="1">
+    <thead>
+        <tr>
+            <th>customer number</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>phone</th>
+            <th>mobile</th>
+            <th>comapany_name</th>
+            <th>date_created</th>
+            <th>date_updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in customers %}
+        <tr>
+            <th>{{ customer.customer_id }}</th>
+            <td>{{ customer.first_name }}</td>
+            <td>{{ customer.last_name }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.mobile }}</td>
+            <td>{{ customer.comapany_name }}</td>
+            <td>{{ customer.date_created }}</td>
+            <td>{{ customer.date_updated }}</td>
+        </tr>
+        {% empty %}
+        <li>Sorry, no customers in this list.</li>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

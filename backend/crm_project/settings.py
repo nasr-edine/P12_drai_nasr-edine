@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     # Local
     'customerapp',
     'contractapp',
-    # 'display_scustomer',
 ]
 
 MIDDLEWARE = [

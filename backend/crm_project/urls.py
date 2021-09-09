@@ -5,5 +5,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('customer/', include('customerapp.urls')),  # new
     path('contract/', include('contractapp.urls')),
-    # path('display/', include('display_customer.urls')),
 ]

@@ -14,6 +14,7 @@ class Customer(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     sales_contact = models.ForeignKey(Member, on_delete=models.CASCADE)
+    is_prospect = models.BooleanField(blank=True, null=True)
 
     def __str__(self):
         # return 'customer \u2116 %d: %s %s' % (self.customer_id, self.first_name, self.last_name)

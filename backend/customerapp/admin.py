@@ -43,19 +43,6 @@ class CustomerAdmin(admin.ModelAdmin):
         else:
             return False
 
-    def has_delete_permission(self, request, obj=None):
-        if request.user.role == 'sales':
-            if obj is not None:
-                if obj.sales_contact == request.user:
-                    return True
-                else:
-                    return False
-            return True
-        elif request.user.role == 'management':
-            return True
-        else:
-            return False
-
     # displaying  number of contract in list_display
     def contract_count(self, obj):
         return Contract.objects.filter(customer=obj).count()
@@ -73,11 +60,14 @@ class CustomerAdmin(admin.ModelAdmin):
     # display only the cutomers related to the salesman if the current user have a sales role
     def get_queryset(self, request):
         qs = super().get_queryset(request)
+        if not qs:
+            return qs
+        print(qs)
         if request.user.role == 'management' or request.user.role == 'sales':
             return qs
         if request.user.role == 'support':
             qs2 = request.user.events.all()
-            customers_related_to_event = [] 
+            customers_related_to_event = []
             for event in qs2:
                 print(event.contract.customer.customer_id)
                 customers_related_to_event.append(

@@ -36,6 +36,8 @@ class ContractAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
+        if not qs:
+            return qs
         if request.user.role == 'management' or request.user.role == 'sales':
             return qs
         if request.user.role == 'support':
@@ -53,9 +55,10 @@ class ContractAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         print(db_field)
-        if db_field.name == "customer":
-            kwargs["queryset"] = Customer.objects.filter(
-                is_prospect=False, sales_contact=request.user)
+        if request.user.role == 'sales':
+            if db_field.name == "customer":
+                kwargs["queryset"] = Customer.objects.filter(
+                    is_prospect=False, sales_contact=request.user)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_actions(self, request):

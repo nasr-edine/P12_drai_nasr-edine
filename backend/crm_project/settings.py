@@ -139,6 +139,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'staff.Member'
+AUTHENTICATION_BACKENDS = ['staff.backends.EmailBackend']  # new
 
 
 REST_FRAMEWORK = {

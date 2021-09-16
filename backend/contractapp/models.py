@@ -27,7 +27,8 @@ STATUS_CHOICES = [
 
 class Event(models.Model):
     event_id = models.BigAutoField(primary_key=True)
-    contract = models.OneToOneField(Contract, on_delete=models.CASCADE)
+    contract = models.OneToOneField(
+        Contract, related_name='event', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     event_status = models.CharField(

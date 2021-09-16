@@ -1,7 +1,11 @@
+
 from django.contrib import admin
+
+from staff.models import Member
 from .models import Contract
 from customerapp.models import Customer
 from .models import Event
+
 from customerapp.customfilter import ContractsListFilter
 from customerapp.customfilter import EventsListFilter
 # Register your models here.
@@ -115,18 +119,20 @@ class EventAdmin(admin.ModelAdmin):
         if request.user.role == 'support':
             return qs.filter(support_contact=request.user)
 
-    # def has_delete_permission(self, request, obj=None):
-    #     if request.user.role == 'sales':
-    #         if obj is not None:
-    #             if obj.contract.sales_contact == request.user:
-    #                 return True
-    #             else:
-    #                 return False
-    #         return True
-    #     elif request.user.role == 'management':
-    #         return True
-    #     else:
-    #         return False
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        print(db_field)
+        if request.user.role == 'sales':
+            # Customize foreygn key contract in addform for only display contract has signed
+            if db_field.name == "contract":
+                kwargs["queryset"] = Contract.objects.filter(
+                    status=True, sales_contact=request.user, event__isnull=True)
+            print(db_field.name)
+
+            # Customize foreygn key support_contact in addform for only display members with support role
+            if db_field.name == "support_contact":
+                print(db_field.name)
+                kwargs["queryset"] = Member.objects.filter(role='support', )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 # admin.site.register(Contract, ContractAdmin)
 # admin.site.register(Event, EventAdmin)

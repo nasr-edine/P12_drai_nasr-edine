@@ -38,22 +38,23 @@ class ContractAdmin(admin.ModelAdmin):
         else:
             return False
 
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if not qs:
-            return qs
-        if request.user.role == 'management' or request.user.role == 'sales':
-            return qs
-        if request.user.role == 'support':
-            qs2 = request.user.events.all()
-            contracts_related_to_event = []
-            for event in qs2:
-                print(event.contract.contract_id)
-                contracts_related_to_event.append(
-                    event.contract.contract_id)
-            qs = Contract.objects.filter(
-                contract_id__in=contracts_related_to_event)
-            return qs
+    # def get_queryset(self, request):
+    #     qs = super().get_queryset(request)
+    #     if not qs:
+    #         return qs
+    #     if request.user.role == 'management' or request.user.role == 'sales':
+    #         return qs
+    #     if request.user.role == 'support':
+    #         qs2 = request.user.events.all()
+    #         contracts_related_to_event = []
+    #         for event in qs2:
+    #             print(event.contract.contract_id)
+    #             contracts_related_to_event.append(
+    #                 event.contract.contract_id)
+    #         qs = Contract.objects.filter(
+    #             contract_id__in=contracts_related_to_event)
+    #         return qs
+    #     return qs
 
     # filtering foreignkey field for displaying only my own customers with customer status (not prospect)
 
@@ -102,7 +103,7 @@ class EventAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         if request.user.role == 'support':
             if obj is not None:
-                if obj.support_contact == request.user:
+                if obj.support_contact == request.user and obj.event_status == 'progress':
                     return True
                 else:
                     return False
@@ -112,12 +113,13 @@ class EventAdmin(admin.ModelAdmin):
         else:
             return False
 
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if request.user.role == 'management' or request.user.role == 'sales':
-            return qs
-        if request.user.role == 'support':
-            return qs.filter(support_contact=request.user)
+    # def get_queryset(self, request):
+    #     qs = super().get_queryset(request)
+    #     if request.user.role == 'management' or request.user.role == 'sales':
+    #         return qs
+    #     if request.user.role == 'support':
+    #         return qs.filter(support_contact=request.user)
+    #     return qs
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         print(db_field)

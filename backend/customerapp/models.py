@@ -10,12 +10,17 @@ class Customer(models.Model):
     email = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     mobile = models.CharField(max_length=20, blank=True, null=True)
-    comapany_name = models.CharField(max_length=250, blank=True, null=True)
+    company_name = models.CharField(max_length=250, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     sales_contact = models.ForeignKey(Member, on_delete=models.CASCADE)
-    is_prospect = models.BooleanField(blank=True, null=True)
+    is_prospect = models.BooleanField(
+        default=True, help_text='Is the person is a prospect ?')
 
     def __str__(self):
         # return 'customer \u2116 %d: %s %s' % (self.customer_id, self.first_name, self.last_name)
         return '%s %s' % (self.first_name, self.last_name)
+
+    @property
+    def full_name(self):
+        return '%s %s' % (self.last_name, self.first_name)

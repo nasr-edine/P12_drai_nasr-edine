@@ -6,7 +6,8 @@ from customerapp.models import Customer
 
 class Contract(models.Model):
     contract_id = models.BigAutoField(primary_key=True)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(
+        Customer, related_name='contracts', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     status = models.BooleanField(blank=True, null=True)
@@ -15,8 +16,13 @@ class Contract(models.Model):
     sales_contact = models.ForeignKey(Member, on_delete=models.CASCADE)
 
     def __str__(self):
-        # return a contract
-        return 'contract \u2116: %d, %s' % (self.customer_id, self.customer)
+        return 'contract \u2116: %d, %s' % (self.contract_id, self.customer.full_name)
+
+
+STATUS_CHOICES = [
+    ('progress', 'progress'),
+    ('finished', 'finished'),
+]
 
 
 class Event(models.Model):
@@ -24,8 +30,16 @@ class Event(models.Model):
     contract = models.OneToOneField(Contract, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    # event_status = models.IntegerField(blank=True, null=True)
+    event_status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        blank=True,
+        default="progress")
     attendees = models.IntegerField(blank=True, null=True)
     event_date = models.DateTimeField(blank=True, null=True)
-    notes = models.TextField(max_length=2048, blank=True, null=True)
-    support_contact = models.ForeignKey(Member, on_delete=models.CASCADE)
+    notes = models.TextField(max_length=512, blank=True, null=True)
+    support_contact = models.ForeignKey(
+        Member, related_name='events', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'event \u2116: %d, %s' % (self.event_id, self.contract.customer.full_name)

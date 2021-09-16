@@ -17,6 +17,7 @@ class CustomerAdmin(admin.ModelAdmin):
         ('Personal info', {'fields': ('first_name', 'last_name')}),
         ('Contact', {'fields': ('email', 'phone', 'mobile')}),
         ('company', {'fields': ('company_name',)}),
+        ('Change your prospect in customer', {'fields': ('is_prospect',)}),
     )
 
     ordering = ['-date_created']
@@ -58,23 +59,26 @@ class CustomerAdmin(admin.ModelAdmin):
 
     # display all customers if the current user has a management role
     # display only the cutomers related to the salesman if the current user have a sales role
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if not qs:
-            return qs
-        print(qs)
-        if request.user.role == 'management' or request.user.role == 'sales':
-            return qs
-        if request.user.role == 'support':
-            qs2 = request.user.events.all()
-            customers_related_to_event = []
-            for event in qs2:
-                print(event.contract.customer.customer_id)
-                customers_related_to_event.append(
-                    event.contract.customer.customer_id)
-            qs = Customer.objects.filter(
-                customer_id__in=customers_related_to_event)
-            return qs
+    # def get_queryset(self, request):
+    #     print('get_queryset')
+    #     qs = super().get_queryset(request)
+    #     if not qs:
+    #         return qs
+    #     print(qs)
+    #     if request.user.role == 'management' or request.user.role == 'sales':
+    #         return qs
+    #     if request.user.role == 'support':
+    #         qs2 = request.user.events.all()
+    #         customers_related_to_event = []
+    #         for event in qs2:
+    #             print(event.contract.customer.customer_id)
+    #             customers_related_to_event.append(
+    #                 event.contract.customer.customer_id)
+    #         qs = Customer.objects.filter(
+    #             customer_id__in=customers_related_to_event)
+    #         return qs
+    #     print('nothing')
+    #     return qs
 
     # for save automatically the current user in to sales_contact field
 

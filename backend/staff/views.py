@@ -2,9 +2,12 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from django.contrib.auth.models import Group
+
 from .models import Member
 from .serializers import MemberSerializer
 
+from .permissions import IsSuperUserOrManager
 
 # class RegisterAPI(generics.CreateAPIView):
 #     """
@@ -26,14 +29,33 @@ from .serializers import MemberSerializer
 
 
 class MembertList(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsSuperUserOrManager]
+
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
+    def get_queryset(self):
+        print('hello')
+        return super().get_queryset()
     # for hashing password
+
     def perform_create(self, serializer):
+        print('perform_create called')
         instance = serializer.save()
+        print(instance)
+        sales_group = Group.objects.get(name='sales')
+        support_group = Group.objects.get(name='support')
+        mgmt_group = Group.objects.get(name='management')
         instance.set_password(instance.password)
+        if instance.role == 'sales':
+            print(f'{instance} is attach to group sales')
+            instance.groups.add(sales_group)
+        elif instance.role == 'support':
+            print(f'{instance} is attach to group support')
+            instance.groups.add(support_group)
+        elif instance.role == 'management':
+            print(f'{instance} is attach to group management')
+            instance.groups.add(mgmt_group)
         instance.save()
 
 

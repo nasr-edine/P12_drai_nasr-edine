@@ -14,4 +14,6 @@ import_csv_file.py
 mock_data.csv
 
 # migrations database
-/migrations/
+migrations/
+
+frontend/

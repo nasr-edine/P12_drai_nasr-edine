@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Member
 from .serializers import MemberSerializer
@@ -25,6 +26,7 @@ from .serializers import MemberSerializer
 
 
 class MembertList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
@@ -36,5 +38,6 @@ class MembertList(generics.ListCreateAPIView):
 
 
 class MemberDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Member.objects.all()
     serializer_class = MemberSerializer

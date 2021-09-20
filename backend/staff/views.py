@@ -17,7 +17,7 @@ from .permissions import IsSuperUserOrManager
 
 #     def post(self, request, *args, **kwargs):
 #         serializer = self.get_serializer(data=request.data)
-#         if not serializer.is_valid():
+#         if not serializer.is_valid():q
 #             return Response(serializer.errors, status=status.HTTP_409_CONFLICT
 #                             )
 #         member = serializer.save()
@@ -29,7 +29,7 @@ from .permissions import IsSuperUserOrManager
 
 
 class MembertList(generics.ListCreateAPIView):
-    permission_classes = [IsSuperUserOrManager]
+    permission_classes = [IsAuthenticated, IsSuperUserOrManager]
 
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
@@ -60,6 +60,6 @@ class MembertList(generics.ListCreateAPIView):
 
 
 class MemberDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated, IsSuperUserOrManager]
     queryset = Member.objects.all()
     serializer_class = MemberSerializer

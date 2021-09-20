@@ -32,6 +32,11 @@ class ContracttList(generics.ListAPIView):
     serializer_class = ContractSerializer
 
 
+class ContractRetrieve(generics.RetrieveAPIView):
+    queryset = Contract.objects.all()
+    serializer_class = ContractSerializer
+
+
 class ContractCreate(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsManagerOrSalesman]
     queryset = Contract.objects.all()

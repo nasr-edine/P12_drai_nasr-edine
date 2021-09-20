@@ -15,9 +15,25 @@ class IsSuperUserOrManager(permissions.BasePermission):
         else:
             print(f'it\'s not ok for you because you are {request.user.role}')
             return False
-        # print(request.user.role)
-        # # Read-only permissions are allowed for any request
-        # if request.method in permissions.SAFE_METHODS:
-        #     return True
-        # # Write permissions are only allowed to the author of a post
-        # return obj.is_superuser == request.user.is_superuser
+
+
+class IsManagerOrSalesman(permissions.BasePermission):
+    def has_permission(self, request, view):
+        print("IsManagerorSalesman called")
+        if request.user.is_superuser == True:
+            print('it\'s ok for you because you are superuser')
+            return True
+        elif request.user.role == 'management' or request.user.role == 'sales':
+            print('it\'s also ok for manager and salesman')
+            return True
+        else:
+            print(f'it\'s not ok for you because you are {request.user.role}')
+            return False
+
+
+class IsManagerOrSalesContact(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        # Instance must have an attribute named `owner`.
+        if request.user.role == 'management' or request.user.is_superuser == True:
+            return True
+        return obj.sales_contact == request.user

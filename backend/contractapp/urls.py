@@ -3,7 +3,7 @@ from django.urls import path
 from .views import ContractListView
 # from .views import ContractAPIView
 # from .views import ListContract, DetailContract
-from .views import ContracttList, ContractDetail
+from .views import ContracttList, ContractDetail, ContractCreate
 from .views import EventList, EventDetail
 
 urlpatterns = [
@@ -20,6 +20,8 @@ urlpatterns = [
 
     path('', ContracttList.as_view()),
     path('<int:pk>/', ContractDetail.as_view()),
+
+    path('create/', ContractCreate.as_view()),
 
     path('event/', EventList.as_view()),
     path('event/<int:pk>/', EventDetail.as_view()),

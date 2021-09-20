@@ -13,7 +13,8 @@ class Customer(models.Model):
     company_name = models.CharField(max_length=250, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    sales_contact = models.ForeignKey(Member, on_delete=models.CASCADE)
+    sales_contact = models.ForeignKey(
+        Member, related_name='customers', on_delete=models.CASCADE)
     is_prospect = models.BooleanField(
         default=True, help_text='Is the person is a prospect ?')
 

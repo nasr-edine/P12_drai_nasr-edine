@@ -37,3 +37,17 @@ class IsManagerOrSalesContact(permissions.BasePermission):
         if request.user.role == 'management' or request.user.is_superuser == True:
             return True
         return obj.sales_contact == request.user
+
+
+class IsManagerOrSupportContact(permissions.BasePermission):
+    def has_permission(self, request, view):
+        print("IsManagerorSalesman called")
+        if request.user.is_superuser == True:
+            print('it\'s ok for you because you are superuser')
+            return True
+        elif request.user.role == 'management' or request.user.role == 'support':
+            print('it\'s also ok for manager and support')
+            return True
+        else:
+            print(f'it\'s not ok for you because you are {request.user.role}')
+            return False

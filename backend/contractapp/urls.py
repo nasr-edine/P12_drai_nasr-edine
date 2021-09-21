@@ -1,10 +1,10 @@
 
 from django.urls import path
-from .views import ContractListView
+from .views import ContractListView, EventUpdate
 # from .views import ContractAPIView
 # from .views import ListContract, DetailContract
 from .views import ContracttList, ContractDetail, ContractCreate, ContractRetrieve, ContractDestroy, ContractUpdate
-from .views import EventList, EventRetrieve, EventDestroy, EventCreate
+from .views import EventList, EventRetrieve, EventDestroy, EventCreate, EventUpdate
 
 urlpatterns = [
 
@@ -32,6 +32,7 @@ urlpatterns = [
     path('event/create/', EventCreate.as_view()),
     path('event/', EventList.as_view()),
     path('event/get/<int:pk>/', EventRetrieve.as_view()),
+    path('event/update/<int:pk>/', EventUpdate.as_view()),
     path('event/destroy/<int:pk>/', EventDestroy.as_view()),
 
 ]

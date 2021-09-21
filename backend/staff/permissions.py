@@ -1,60 +1,50 @@
 from rest_framework import permissions
 
-# class IsManager(permissions.BasePermission):
-
 
 class IsSuperUserOrManager(permissions.BasePermission):
     def has_permission(self, request, view):
-        print("IsSuperUserOrManager called")
-        if request.user.is_superuser == True:
-            print('it\'s ok for you because you are superuser')
+        if request.user.is_superuser:
             return True
-        elif request.user.role == 'management':
-            print('it\'s also ok for manager')
+        if request.user.role == 'management':
             return True
-        else:
-            print(f'it\'s not ok for you because you are {request.user.role}')
-            return False
+        return False
 
 
 class IsManagerOrSalesman(permissions.BasePermission):
     def has_permission(self, request, view):
-        print("IsManagerorSalesman called")
-        if request.user.is_superuser == True:
-            print('it\'s ok for you because you are superuser')
+        if request.user.is_superuser:
             return True
-        elif request.user.role == 'management' or request.user.role == 'sales':
-            print('it\'s also ok for manager and salesman')
+        if request.user.role == 'management':
             return True
-        else:
-            print(f'it\'s not ok for you because you are {request.user.role}')
-            return False
+        if request.user.role == 'sales':
+            return True
+        return False
 
 
 class IsManagerOrSalesContact(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        # Instance must have an attribute named `owner`.
-        if request.user.role == 'management' or request.user.is_superuser == True:
+        if request.user.is_superuser:
+            return True
+        if request.user.role == 'management':
             return True
         return obj.sales_contact == request.user
 
 
-class IsManagerOrSupportContact(permissions.BasePermission):
+class IsManagerOrSupportMan(permissions.BasePermission):
     def has_permission(self, request, view):
-        print("IsManagerorSalesman called")
-        if request.user.is_superuser == True:
-            print('it\'s ok for you because you are superuser')
+        if request.user.is_superuser:
             return True
-        elif request.user.role == 'management' or request.user.role == 'support':
-            print('it\'s also ok for manager and support')
+        if request.user.role == 'management':
             return True
-        else:
-            print(f'it\'s not ok for you because you are {request.user.role}')
-            return False
+        if request.user.role == 'support':
+            return True
+        return False
 
 
-class IsManagerOrSupportAssigned(permissions.BasePermission):
+class IsManagerOrSupportContact(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        if request.user.role == 'management' or request.user.is_superuser == True:
+        if request.user.is_superuser:
+            return True
+        if request.user.role == 'management':
             return True
         return obj.support_contact == request.user

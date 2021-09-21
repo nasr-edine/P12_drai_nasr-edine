@@ -1,10 +1,9 @@
 from django.contrib import admin
-
-from staff.models import Member
 from django.contrib.auth.models import Group
 
+from staff.models import Member
 
-# Register your models here.
+
 class MemberAdmin(admin.ModelAdmin):
     list_display = ('id', 'full_name', 'email',
                     'role')
@@ -15,11 +14,8 @@ class MemberAdmin(admin.ModelAdmin):
         ('Permissions', {'fields': ('role',)}),
     )
     radio_fields = {'role': admin.HORIZONTAL}
-
     ordering = ['-date_created']
-
     list_filter = ['role']
-
     readonly_fields = ('date_created',)
 
     def save_model(self, request, obj, form, change):

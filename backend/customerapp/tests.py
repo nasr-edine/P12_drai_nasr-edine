@@ -1,7 +1,8 @@
 from django.test import TestCase
 
-from customerapp.models import Customer
 from contractapp.models import Contract
+from customerapp.models import Customer
+
 # Create your tests here.
 
 

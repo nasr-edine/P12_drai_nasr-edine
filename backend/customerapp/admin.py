@@ -1,9 +1,8 @@
-from django.contrib import admin
-from customerapp.models import Customer
-from contractapp.models import Contract
-from django.contrib.auth.models import User
+from django.contrib import admin, messages
 from django.utils.translation import ngettext
-from django.contrib import messages
+
+from contractapp.models import Contract
+from customerapp.models import Customer
 
 from .customfilter import CustomersListFilter
 
@@ -57,34 +56,11 @@ class CustomerAdmin(admin.ModelAdmin):
             updated,
         ) % updated, messages.SUCCESS)
 
-    # display all customers if the current user has a management role
-    # display only the cutomers related to the salesman if the current user have a sales role
-    # def get_queryset(self, request):
-    #     print('get_queryset')
-    #     qs = super().get_queryset(request)
-    #     if not qs:
-    #         return qs
-    #     print(qs)
-    #     if request.user.role == 'management' or request.user.role == 'sales':
-    #         return qs
-    #     if request.user.role == 'support':
-    #         qs2 = request.user.events.all()
-    #         customers_related_to_event = []
-    #         for event in qs2:
-    #             print(event.contract.customer.customer_id)
-    #             customers_related_to_event.append(
-    #                 event.contract.customer.customer_id)
-    #         qs = Customer.objects.filter(
-    #             customer_id__in=customers_related_to_event)
-    #         return qs
-    #     print('nothing')
-    #     return qs
-
     # for save automatically the current user in to sales_contact field
 
     def get_actions(self, request):
         actions = super().get_actions(request)
-        if request.user.is_superuser == False or request.user.role != 'management':
+        if request.user.is_superuser is False or request.user.role != 'management':
             if 'delete_selected' in actions:
                 del actions['delete_selected']
         return actions

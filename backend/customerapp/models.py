@@ -5,8 +5,8 @@ from staff.models import Member
 
 class Customer(models.Model):
     customer_id = models.BigAutoField(primary_key=True)
-    first_name = models.CharField(max_length=25, blank=True, null=True)
-    last_name = models.CharField(max_length=25, blank=True, null=True)
+    first_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length=25)
     email = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     mobile = models.CharField(max_length=20, blank=True, null=True)
@@ -19,7 +19,6 @@ class Customer(models.Model):
         default=True, help_text='Is the person is a prospect ?')
 
     def __str__(self):
-        # return 'customer \u2116 %d: %s %s' % (self.customer_id, self.first_name, self.last_name)
         return '%s %s' % (self.first_name, self.last_name)
 
     @property

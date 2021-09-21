@@ -35,9 +35,7 @@ class MembertList(generics.ListCreateAPIView):
     serializer_class = MemberSerializer
 
     def get_queryset(self):
-        print('hello')
         return super().get_queryset()
-    # for hashing password
 
     def perform_create(self, serializer):
         print('perform_create called')

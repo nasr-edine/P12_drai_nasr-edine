@@ -51,3 +51,10 @@ class IsManagerOrSupportContact(permissions.BasePermission):
         else:
             print(f'it\'s not ok for you because you are {request.user.role}')
             return False
+
+
+class IsManagerOrSupportAssigned(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.role == 'management' or request.user.is_superuser == True:
+            return True
+        return obj.support_contact == request.user

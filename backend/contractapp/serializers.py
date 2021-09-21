@@ -110,14 +110,28 @@ class EventCreateSerializerManager(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"You cannot create an event for this contract because it is not signed"})
 
-        # check if the  is the sales contact the contract field
-        # contact = self.context['request'].user
-        # customer = data['contract'].customer
-        # queryset = contact.customers.all()
-        # if not customer in queryset:
-        #     raise serializers.ValidationError(
-        #         {"You are not the sales contact for this contract"})
+        queryset = Member.objects.filter(role='support')
+        if not data['support_contact'] in queryset:
+            raise serializers.ValidationError(
+                {"this contact is not a member with support role"})
+        return data
 
+    class Meta:
+        model = Event
+        fields = ('event_id', 'contract', 'date_created',
+                  'date_updated', 'attendees', 'event_date', 'notes', 'support_contact')
+
+
+class EventUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('event_id', 'contract', 'date_created',
+                  'date_updated', 'attendees', 'event_date', 'notes', 'support_contact')
+        read_only_fields = ['contract', 'support_contact']
+
+
+class EventUpdateSerializerManager(serializers.ModelSerializer):
+    def validate(self, data):
         # check if the support contact exisit in member table with support role
         queryset = Member.objects.filter(role='support')
         if not data['support_contact'] in queryset:
@@ -129,3 +143,4 @@ class EventCreateSerializerManager(serializers.ModelSerializer):
         model = Event
         fields = ('event_id', 'contract', 'date_created',
                   'date_updated', 'attendees', 'event_date', 'notes', 'support_contact')
+        read_only_fields = ['contract']

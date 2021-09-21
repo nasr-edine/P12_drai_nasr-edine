@@ -82,11 +82,21 @@ class ContractDestroy(generics.DestroyAPIView):
     serializer_class = ContractSerializer
 
 
-class EventList(generics.ListCreateAPIView):
+# class EventList(generics.ListCreateAPIView):
+#     queryset = Event.objects.all()
+#     serializer_class = EventSerializer
+
+
+# class EventDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Event.objects.all()
+#     serializer_class = EventSerializer
+
+
+class EventList(generics.ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
 
-class EventDetail(generics.RetrieveUpdateDestroyAPIView):
+class EventRetrieve(generics.RetrieveAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer

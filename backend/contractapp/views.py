@@ -93,10 +93,18 @@ class ContractDestroy(generics.DestroyAPIView):
 
 
 class EventList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
 
 class EventRetrieve(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+
+class EventDestroy(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated, IsSuperUserOrManager]
     queryset = Event.objects.all()
     serializer_class = EventSerializer

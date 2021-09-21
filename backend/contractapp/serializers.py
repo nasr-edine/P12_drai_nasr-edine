@@ -36,6 +36,7 @@ class ContractCreateSerializerManager(serializers.ModelSerializer):
                 {"this sales contact is not recorded as a member with sales role"})
         sales_contact = data['sales_contact']
         queryset = sales_contact.customers.all()
+        print(self)
         if not data['customer'] in queryset:
             raise serializers.ValidationError(
                 {"this customer is not created by the sales contact"})
@@ -45,23 +46,24 @@ class ContractCreateSerializerManager(serializers.ModelSerializer):
         model = Contract
         fields = ('contract_id', 'customer', 'date_created',
                   'date_updated', 'status', 'amount', 'payment_due', 'sales_contact')
+        # read_only_fields = ['sales_contact']
 
 
 class ContractUpdateSerializer(serializers.ModelSerializer):
-    def validate(self, data):
-        print(self.context['request'].user)
-        sales_contact = self.context['request'].user
-        queryset = sales_contact.customers.all()
-        if not data['customer'] in queryset:
-            raise serializers.ValidationError(
-                {"this customer is not created by the sales contact"})
-        return data
+    # def validate(self, data):
+    #     print(self.context['request'].user)
+    #     sales_contact = self.context['request'].user
+    #     queryset = sales_contact.customers.all()
+    #     if not data['customer'] in queryset:
+    #         raise serializers.ValidationError(
+    #             {"this customer is not created by the sales contact"})
+    #     return data
 
     class Meta:
         model = Contract
         fields = ('contract_id', 'customer', 'date_created',
                   'date_updated', 'status', 'amount', 'payment_due', 'sales_contact')
-        read_only_fields = ['sales_contact']
+        read_only_fields = ['sales_contact', 'customer']
 
 
 class EventSerializer(serializers.ModelSerializer):

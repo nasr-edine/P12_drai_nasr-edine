@@ -54,7 +54,7 @@ class CustomerUpdateSerializerManager(serializers.ModelSerializer):
         if 'sales_contact' in data:
             if not data['sales_contact'] in queryset:
                 raise serializers.ValidationError(
-                    {"this sales contact is not recored as a member with sales role"})
+                    {"this sales contact is not recorded as a member with sales role"})
             return data
         return data
 

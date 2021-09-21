@@ -61,19 +61,19 @@ class ContractUpdate(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated,
                           IsManagerOrSalesman, IsManagerOrSalesContact]
     queryset = Contract.objects.all()
-    # serializer_class = ContractUpdateSerializer
+    serializer_class = ContractUpdateSerializer
 
-    def get_serializer_class(self):
-        if self.request.user.role == 'sales':
-            return ContractUpdateSerializer
-        if self.request.user.is_superuser == True or self.request.user.role == 'management':
-            return ContractCreateSerializerManager
+    # def get_serializer_class(self):
+    #     if self.request.user.role == 'sales':
+    #         return ContractUpdateSerializer
+    #     if self.request.user.is_superuser == True or self.request.user.role == 'management':
+    #         return ContractCreateSerializerManager
 
-    def perform_create(self, serializer):
-        if self.request.user.role == 'sales':
-            serializer.save()
-        if self.request.user.is_superuser == True or self.request.user.role == 'management':
-            serializer.save()
+    # def perform_create(self, serializer):
+    #     if self.request.user.role == 'sales':
+    #         serializer.save()
+    #     if self.request.user.is_superuser == True or self.request.user.role == 'management':
+    #         serializer.save()
 
 
 class ContractDestroy(generics.DestroyAPIView):

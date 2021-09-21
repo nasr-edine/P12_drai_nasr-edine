@@ -8,6 +8,8 @@ from .serializers import ContractSerializer
 from .serializers import ContractCreateSerializer
 from .serializers import ContractCreateSerializerManager
 from .serializers import ContractUpdateSerializer
+from .serializers import EventCreateSerializer
+# from .serializers import EventCreateSerializerManager
 
 from .models import Event
 from .serializers import EventSerializer
@@ -108,3 +110,21 @@ class EventDestroy(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated, IsSuperUserOrManager]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+
+class EventCreate(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+    def get_serializer_class(self):
+        if self.request.user.role == 'sales':
+            return EventCreateSerializer
+        # if self.request.user.is_superuser == True or self.request.user.role == 'management':
+            # return EventCreateSerializerManager
+
+    # def perform_create(self, serializer):
+    #     if self.request.user.role == 'sales':
+    #         serializer.save(sales_contact=self.request.user)
+    #     if self.request.user.is_superuser == True or self.request.user.role == 'management':
+    #         serializer.save()

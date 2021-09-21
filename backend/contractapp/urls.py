@@ -4,7 +4,7 @@ from .views import ContractListView
 # from .views import ContractAPIView
 # from .views import ListContract, DetailContract
 from .views import ContracttList, ContractDetail, ContractCreate, ContractRetrieve, ContractDestroy, ContractUpdate
-from .views import EventList, EventRetrieve, EventDestroy
+from .views import EventList, EventRetrieve, EventDestroy, EventCreate
 
 urlpatterns = [
 
@@ -29,6 +29,7 @@ urlpatterns = [
     # path('event/', EventList.as_view()),
     # path('event/<int:pk>/', EventDetail.as_view()),
 
+    path('event/create/', EventCreate.as_view()),
     path('event/', EventList.as_view()),
     path('event/get/<int:pk>/', EventRetrieve.as_view()),
     path('event/destroy/<int:pk>/', EventDestroy.as_view()),

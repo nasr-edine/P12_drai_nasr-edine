@@ -1,7 +1,7 @@
 from django.views.generic import ListView
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from staff.permissions import IsManagerOrSalesman
+from staff.permissions import IsManagerOrSalesman, IsSuperUserOrManager
 
 from .models import Contract
 from .serializers import ContractSerializer
@@ -53,6 +53,12 @@ class ContractCreate(generics.CreateAPIView):
             serializer.save(sales_contact=self.request.user)
         if self.request.user.is_superuser == True or self.request.user.role == 'management':
             serializer.save()
+
+
+class ContractDestroy(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated, IsSuperUserOrManager]
+    queryset = Contract.objects.all()
+    serializer_class = ContractSerializer
 
 
 class EventList(generics.ListCreateAPIView):

@@ -1,6 +1,7 @@
-from staff.models import Member
 from rest_framework import serializers
+
 from customerapp.models import Customer
+from staff.models import Member
 
 
 class CustomerSerializer(serializers.ModelSerializer):

@@ -1,15 +1,11 @@
 from rest_framework import generics
 
+from staff.permissions import (IsManagerOrSalesContact, IsManagerOrSalesman,
+                               IsSuperUserOrManager)
+
 from .models import Customer
-
-from .serializers import CustomerSerializer
-from .serializers import CustomerCreateSerializerBySalesMan
-from .serializers import CustomerUpdateSerializerManager
-
-
-from staff.permissions import IsManagerOrSalesman
-from staff.permissions import IsManagerOrSalesContact
-from staff.permissions import IsSuperUserOrManager
+from .serializers import (CustomerCreateSerializerBySalesMan,
+                          CustomerSerializer, CustomerUpdateSerializerManager)
 
 
 class CustomerList(generics.ListCreateAPIView):
@@ -32,7 +28,6 @@ class CustomerList(generics.ListCreateAPIView):
 class CustomerDetail(generics.RetrieveUpdateAPIView):
     permission_classes = [IsManagerOrSalesContact]
     queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
 
     def get_serializer_class(self):
         if self.request.method == 'GET':

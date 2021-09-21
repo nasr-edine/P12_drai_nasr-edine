@@ -1,10 +1,8 @@
 
 from django.urls import path
-from .views import CustomerList
-from .views import CustomerDetail
-# from .views import CustomerUpdate
-from .views import CustomerDestroy
 
+# from .views import CustomerUpdate
+from .views import CustomerDestroy, CustomerDetail, CustomerList
 
 urlpatterns = [
     path('', CustomerList.as_view()),

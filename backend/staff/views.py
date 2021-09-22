@@ -4,6 +4,7 @@ from rest_framework import generics
 from .models import Member
 from .permissions import IsSuperUserOrManager
 from .serializers import MemberSerializer
+from .serializers import MemberUpdateSerializer
 
 
 class MembertList(generics.ListCreateAPIView):
@@ -32,4 +33,4 @@ class MembertList(generics.ListCreateAPIView):
 class MemberDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsSuperUserOrManager]
     queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+    serializer_class = MemberUpdateSerializer

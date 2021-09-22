@@ -1,5 +1,7 @@
 from django.contrib.auth.models import Group
 from rest_framework import generics
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Member
 from .permissions import IsSuperUserOrManager
@@ -12,6 +14,10 @@ class MembertList(generics.ListCreateAPIView):
 
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
+
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['role', 'is_superuser']
+    ordering_fields = ['date_created', 'last_name']
 
     def perform_create(self, serializer):
 

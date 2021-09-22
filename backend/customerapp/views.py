@@ -1,4 +1,6 @@
 from rest_framework import generics
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from staff.permissions import (IsManagerOrSalesContact, IsManagerOrSalesman,
                                IsSuperUserOrManager)
@@ -11,6 +13,18 @@ from .serializers import (CustomerCreateSerializerBySalesMan,
 class CustomerList(generics.ListCreateAPIView):
     permission_classes = [IsManagerOrSalesman]
     queryset = Customer.objects.all()
+
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['is_prospect', 'sales_contact__email', 'date_created']
+    ordering_fields = ['date_updated', 'last_name']
+
+    def get_queryset(self):
+        queryset = Customer.objects.all()
+        my_customers = self.request.query_params.get('my_customers')
+        if my_customers is not None:
+            if my_customers == 'yes':
+                queryset = queryset.filter(sales_contact=self.request.user)
+        return queryset
 
     def get_serializer_class(self):
         if self.request.user.role == 'sales':
@@ -33,6 +47,7 @@ class CustomerDetail(generics.RetrieveUpdateAPIView):
         if self.request.method == 'GET':
             return CustomerSerializer
         if self.request.user.role == 'sales':
+            print('sales condition')
             return CustomerCreateSerializerBySalesMan
         if self.request.user.is_superuser or self.request.user.role == 'management':
             return CustomerUpdateSerializerManager

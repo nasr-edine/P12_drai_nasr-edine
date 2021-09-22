@@ -60,10 +60,10 @@ class EventDetail(generics.RetrieveUpdateAPIView):
     serializer_class = EventSerializer
 
     def get_serializer_class(self):
-        if self.request.user.role == 'support':
-            return EventUpdateSerializer
         if self.request.user.is_superuser or self.request.user.role == 'management':
             return EventUpdateSerializerManager
+        else:
+            return EventUpdateSerializer
 
 
 class EventDestroy(generics.DestroyAPIView):

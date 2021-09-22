@@ -36,6 +36,8 @@ class IsManagerOrSalesContact(permissions.BasePermission):
 
 class IsManagerOrSupportMan(permissions.BasePermission):
     def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
         if request.user.is_superuser:
             return True
         if request.user.role == 'management':
@@ -47,6 +49,8 @@ class IsManagerOrSupportMan(permissions.BasePermission):
 
 class IsManagerOrSupportContact(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
         if request.user.is_superuser:
             return True
         if request.user.role == 'management':

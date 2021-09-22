@@ -15,8 +15,8 @@ class Member(AbstractUser):
     role = models.CharField(
         max_length=20,
         choices=ROLES_CHOICES,
-        blank=False,
-        default="sales")
+        blank=True,
+        default="")
     is_staff = models.BooleanField(default=True)
     email = models.EmailField(unique=True)
 

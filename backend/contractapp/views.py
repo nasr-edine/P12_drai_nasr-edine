@@ -1,4 +1,6 @@
 from rest_framework import generics
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from staff.permissions import (IsManagerOrSalesContact, IsManagerOrSalesman,
                                IsManagerOrSupportContact,
@@ -14,6 +16,18 @@ from .serializers import (ContractSerializer, ContractUpdateSerializer,
 class ContractList(generics.ListCreateAPIView):
     permission_classes = [IsManagerOrSalesman]
     queryset = Contract.objects.all()
+
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['status', 'sales_contact__email', 'customer__email']
+    ordering_fields = ['date_created', 'date_updated']
+
+    def get_queryset(self):
+        queryset = Contract.objects.all()
+        my_contracts = self.request.query_params.get('my_contracts')
+        if my_contracts is not None:
+            if my_contracts == 'yes':
+                queryset = queryset.filter(sales_contact=self.request.user)
+        return queryset
 
     def get_serializer_class(self):
         if self.request.method == 'GET':

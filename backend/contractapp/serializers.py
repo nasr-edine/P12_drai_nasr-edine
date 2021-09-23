@@ -115,12 +115,16 @@ class EventUpdateSerializer(serializers.ModelSerializer):
 
 
 class EventUpdateSerializerManager(serializers.ModelSerializer):
+    support_contact = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=Member.objects.all())
+
     def validate(self, data):
         # check if the support contact exisit in member table with support role
         queryset = Member.objects.filter(role='support')
-        if not data['support_contact'] in queryset:
-            raise serializers.ValidationError(
-                {"this contact is not a member with support role"})
+        if 'support_contact' in data:
+            if not data['support_contact'] in queryset:
+                raise serializers.ValidationError(
+                    {"this contact is not a member with support role"})
         return data
 
     class Meta:

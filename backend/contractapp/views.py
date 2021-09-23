@@ -1,6 +1,7 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
 
 from staff.permissions import (IsManagerOrSalesContact, IsManagerOrSalesman,
                                IsManagerOrSupportContact,
@@ -83,6 +84,18 @@ class EventDetail(generics.RetrieveUpdateAPIView):
     permission_classes = [IsManagerOrSupportMan, IsManagerOrSupportContact]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        print(instance)
+        print(instance.event_status)
+        if instance.event_status == "finished" and self.request.user.role == 'support':
+            return Response({'message': "Yon can change this event because it is finished"},
+                            status=status.HTTP_403_FORBIDDEN)
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
     def get_serializer_class(self):
         if self.request.user.is_superuser or self.request.user.role == 'management':

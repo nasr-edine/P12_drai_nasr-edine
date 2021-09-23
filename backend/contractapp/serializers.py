@@ -83,7 +83,7 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('event_id', 'contract', 'date_created',
-                  'date_updated', 'attendees', 'event_date', 'notes', 'support_contact')
+                  'date_updated', 'attendees', 'event_date', 'event_status', 'notes', 'support_contact')
 
 
 class EventCreateByManagerSerializer(serializers.ModelSerializer):
@@ -103,14 +103,14 @@ class EventCreateByManagerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('event_id', 'contract', 'date_created',
-                  'date_updated', 'attendees', 'event_date', 'notes', 'support_contact')
+                  'date_updated', 'attendees', 'event_date',  'event_status', 'notes', 'support_contact')
 
 
 class EventUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('event_id', 'contract', 'date_created',
-                  'date_updated', 'attendees', 'event_date', 'notes', 'support_contact')
+                  'date_updated', 'attendees', 'event_date',  'event_status', 'notes', 'support_contact')
         read_only_fields = ['contract', 'support_contact']
 
 
@@ -126,5 +126,5 @@ class EventUpdateSerializerManager(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('event_id', 'contract', 'date_created',
-                  'date_updated', 'attendees', 'event_date', 'notes', 'support_contact')
+                  'date_updated', 'attendees', 'event_date',  'event_status', 'notes', 'support_contact')
         read_only_fields = ['contract']

@@ -60,6 +60,17 @@ class EventList(generics.ListCreateAPIView):
     permission_classes = [IsManagerOrSalesman]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ['event_status', 'support_contact__email']
+    ordering_fields = ['date_created', 'date_updated']
+
+    def get_queryset(self):
+        queryset = Event.objects.all()
+        my_events = self.request.query_params.get('my_events')
+        if my_events is not None:
+            if my_events == 'yes':
+                queryset = queryset.filter(support_contact=self.request.user)
+        return queryset
 
     def get_serializer_class(self):
         if self.request.user.is_superuser or self.request.user.role == 'management':

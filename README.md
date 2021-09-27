@@ -1,5 +1,13 @@
 # Develop a secure back-end architecture using Django ORM
 
+## Rights for each models
+
+![rights for each models](https://github.com/nasr-edine/P12_drai_nasr-edine/blob/develop/database_diagram/rights%20of%20each%20models.png?raw=true)
+
+## Entity Relationship Diagram (ERD)
+
+![Entity Relationship Diagram (ERD)](https://github.com/nasr-edine/P12_drai_nasr-edine/blob/develop/database_diagram/entity_relationship_diagram.jpg?raw=true)
+
 ## Installation
 
 clone repository locally

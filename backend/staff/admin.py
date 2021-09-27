@@ -16,7 +16,7 @@ class MemberAdmin(admin.ModelAdmin):
     radio_fields = {'role': admin.HORIZONTAL}
     ordering = ['-date_created']
     list_filter = ['role']
-    readonly_fields = ('date_created',)
+    readonly_fields = ('date_created', 'password')
 
     def save_model(self, request, obj, form, change):
         obj.is_staff = True

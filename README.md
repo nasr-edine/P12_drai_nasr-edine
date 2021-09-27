@@ -32,10 +32,27 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-Make Migration
+Create a database and configure parameters in django settings file
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'your_database_name',
+        'USER':  'your_server_database_username',
+        'PASSWORD': 'your_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+```
+
+Make Migration for 3 apps in the order below:
 
 ```bash
-django mm
+django mm staff
+django mm customer
+django mm contract
 ```
 
 Migrate
@@ -50,6 +67,12 @@ Create a super user in command line:
 django csu
 ```
 
+Run python script "add_permissions.py" to set groups and permissions
+
+```bash
+django s < add_groups_permissions.py
+```
+
 ## Usage
 
 Run the Django Server:
@@ -60,5 +83,9 @@ django r
 
 ## Access to API documentation:
 
-[https://documenter.getpostman.com/view/5359695/UUxxfTGb
-](https://documenter.getpostman.com/view/5359695/UUxxfTGb)
+[https://documenter.getpostman.com/view/5359695/UUxxfTGb](https://documenter.getpostman.com/view/5359695/UUxxfTGb)
+
+## Using django admin
+
+Open your browser and enter the URL below and login as superuser:
+[http://localhost:8000/admin/](http://localhost:8000/admin/)

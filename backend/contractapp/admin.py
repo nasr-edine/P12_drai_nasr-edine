@@ -15,7 +15,7 @@ from customerapp.customfilter import EventsListFilter
 class ContractAdmin(admin.ModelAdmin):
     list_display = ('contract_id', 'customer', 'status',
                     'amount', 'payment_due', 'event_count', 'sales_contact')
-
+    list_display_links = ('customer',)
     fields = ('customer', 'status', 'amount', 'payment_due')
     ordering = ['-date_created']
     search_fields = ("customer__last_name", )
@@ -37,24 +37,6 @@ class ContractAdmin(admin.ModelAdmin):
             return True
         else:
             return False
-
-    # def get_queryset(self, request):
-    #     qs = super().get_queryset(request)
-    #     if not qs:
-    #         return qs
-    #     if request.user.role == 'management' or request.user.role == 'sales':
-    #         return qs
-    #     if request.user.role == 'support':
-    #         qs2 = request.user.events.all()
-    #         contracts_related_to_event = []
-    #         for event in qs2:
-    #             print(event.contract.contract_id)
-    #             contracts_related_to_event.append(
-    #                 event.contract.contract_id)
-    #         qs = Contract.objects.filter(
-    #             contract_id__in=contracts_related_to_event)
-    #         return qs
-    #     return qs
 
     # filtering foreignkey field for displaying only my own customers with customer status (not prospect)
 
@@ -87,7 +69,7 @@ class EventAdmin(admin.ModelAdmin):
     '''Admin View for Event'''
     list_display = ('event_id', 'contract', 'event_status',
                     'event_date', 'support_contact')
-
+    list_display_links = ('contract',)
     fieldsets = (
         ('Contract related', {'fields': ('contract',)}),
         ('Date', {'fields': ('event_date',)}),
@@ -112,14 +94,6 @@ class EventAdmin(admin.ModelAdmin):
             return True
         else:
             return False
-
-    # def get_queryset(self, request):
-    #     qs = super().get_queryset(request)
-    #     if request.user.role == 'management' or request.user.role == 'sales':
-    #         return qs
-    #     if request.user.role == 'support':
-    #         return qs.filter(support_contact=request.user)
-    #     return qs
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         print(db_field)

@@ -1,8 +1,8 @@
 
 from django.urls import path
 
-from .views import (ContractDestroy, ContractList, ContractDetail,
-                    EventList, EventDetail, EventDestroy)
+from .views import (ContractDestroy, ContractDetail, ContractList,
+                    EventDestroy, EventDetail, EventList)
 
 urlpatterns = [
     path('', ContractList.as_view()),

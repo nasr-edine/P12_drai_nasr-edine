@@ -1,13 +1,12 @@
 
 from django.contrib import admin
 
-from staff.models import Member
-from .models import Contract
+from customerapp.customfilter import ContractsListFilter, EventsListFilter
 from customerapp.models import Customer
-from .models import Event
+from staff.models import Member
 
-from customerapp.customfilter import ContractsListFilter
-from customerapp.customfilter import EventsListFilter
+from .models import Contract, Event
+
 # Register your models here.
 
 
@@ -60,7 +59,7 @@ class ContractAdmin(admin.ModelAdmin):
 
     def get_actions(self, request):
         actions = super().get_actions(request)
-        if request.user.is_superuser == False or request.user.role != 'management':
+        if not request.user.is_superuser or request.user.role != 'management':
             if 'delete_selected' in actions:
                 del actions['delete_selected']
         return actions

@@ -1,12 +1,10 @@
 from django.contrib.auth.models import Group
-from rest_framework import generics
-from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics
 
 from .models import Member
 from .permissions import IsSuperUserOrManager
-from .serializers import MemberSerializer
-from .serializers import MemberUpdateSerializer
+from .serializers import MemberSerializer, MemberUpdateSerializer
 
 
 class MembertList(generics.ListCreateAPIView):

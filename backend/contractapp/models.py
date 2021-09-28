@@ -1,6 +1,8 @@
-from staff.models import Member
 from django.db import models
+
 from customerapp.models import Customer
+from staff.models import Member
+
 # Create your models here.
 
 

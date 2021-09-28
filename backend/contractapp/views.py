@@ -1,6 +1,5 @@
-from rest_framework import generics, status
-from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, status
 from rest_framework.response import Response
 
 from staff.permissions import (IsManagerOrSalesContact, IsManagerOrSalesman,
@@ -8,8 +7,8 @@ from staff.permissions import (IsManagerOrSalesContact, IsManagerOrSalesman,
                                IsManagerOrSupportMan, IsSuperUserOrManager)
 
 from .models import Contract, Event
-from .serializers import (ContractSerializer, ContractUpdateSerializer,
-                          ContractCreateByManagerSerializer,
+from .serializers import (ContractCreateByManagerSerializer,
+                          ContractSerializer, ContractUpdateSerializer,
                           EventCreateByManagerSerializer, EventSerializer,
                           EventUpdateSerializer, EventUpdateSerializerManager)
 

@@ -15,7 +15,7 @@ from customerapp.customfilter import EventsListFilter
 class ContractAdmin(admin.ModelAdmin):
     list_display = ('contract_id', 'customer', 'status',
                     'amount', 'payment_due', 'event_count', 'sales_contact')
-    list_display_links = ('customer',)
+    # list_display_links = ('customer',)
     fields = ('customer', 'status', 'amount', 'payment_due')
     ordering = ['-date_created']
     search_fields = ("customer__last_name", )
@@ -75,7 +75,7 @@ class EventAdmin(admin.ModelAdmin):
     '''Admin View for Event'''
     list_display = ('event_id', 'contract', 'event_status',
                     'event_date', 'support_contact')
-    list_display_links = ('contract',)
+    # list_display_links = ('contract',)
     fieldsets = (
         ('Contract related', {'fields': ('contract',)}),
         ('Date', {'fields': ('event_date',)}),
@@ -87,6 +87,11 @@ class EventAdmin(admin.ModelAdmin):
     list_filter = ['event_date', 'event_status', EventsListFilter]
     date_hierarchy = 'date_created'
     readonly_fields = ('date_created', 'date_updated')
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # editing an existing object
+            return self.readonly_fields + ('contract',)
+        return self.readonly_fields
 
     def has_change_permission(self, request, obj=None):
         if request.user.role == 'support':

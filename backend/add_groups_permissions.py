@@ -2,9 +2,10 @@ from django.contrib.auth.models import Group, Permission
 
 from staff.models import Member
 
-sales_group = Group.objects.create(name='sales')
-support_group = Group.objects.create(name='support')
-mgmt_group = Group.objects.create(name='management')
+sales_group, created = Group.objects.get_or_create(name='sales')
+support_group, created = Group.objects.get_or_create(name='support')
+mgmt_group, created = Group.objects.get_or_create(name='management')
+no_privilege, created = Group.objects.get_or_create(name='no_privilege')
 
 can_view_user = Permission.objects.get(name='Can view user')
 can_add_user = Permission.objects.get(name='Can add user')
@@ -39,6 +40,7 @@ support_group.permissions.add(can_view_customer, can_view_contract, can_view_eve
 members = Member.objects.all()
 
 for member in members:
-    member.role = 'management'
-    member.save()
-    print(member)
+    if member.is_superuser:
+        member.role = 'management'
+        member.save()
+        print(member)

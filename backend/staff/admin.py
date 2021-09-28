@@ -10,13 +10,13 @@ class MemberAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Personal info', {'fields': ('first_name', 'last_name')}),
         ('Contact', {'fields': ('email', 'phone', 'mobile')}),
-        ('security', {'fields': ('username', 'password')}),
+        ('security', {'fields': ('password',)}),
         ('Permissions', {'fields': ('role',)}),
     )
     radio_fields = {'role': admin.HORIZONTAL}
     ordering = ['-date_created']
     list_filter = ['role']
-    readonly_fields = ('date_created', 'password')
+    # readonly_fields = ('date_created', 'password')
 
     def save_model(self, request, obj, form, change):
         obj.is_staff = True

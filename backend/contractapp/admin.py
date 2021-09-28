@@ -23,8 +23,14 @@ class ContractAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_created'
     readonly_fields = ('date_created', 'date_updated')
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # editing an existing object
+            return self.readonly_fields + ('customer',)
+        return self.readonly_fields
+
     # Either member with sales role can update  his own customers
     # Or member with management role can change any customers
+
     def has_change_permission(self, request, obj=None):
         if request.user.role == 'sales':
             if obj is not None:

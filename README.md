@@ -96,4 +96,4 @@ django r
 ## Using django admin
 
 Open your browser and enter the URL below and login as superuser:
-[http://localhost:8000/admin/](http://localhost:8000/admin/)
+[http://localhost:8000/adminzone/](http://localhost:8000/adminzone/)

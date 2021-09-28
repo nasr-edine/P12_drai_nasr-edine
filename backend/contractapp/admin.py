@@ -52,6 +52,10 @@ class ContractAdmin(admin.ModelAdmin):
             if db_field.name == "customer":
                 kwargs["queryset"] = Customer.objects.filter(
                     is_prospect=False, sales_contact=request.user)
+        if request.user.role == 'management':
+            if db_field.name == "customer":
+                kwargs["queryset"] = Customer.objects.filter(
+                    is_prospect=False)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_actions(self, request):
@@ -89,6 +93,8 @@ class EventAdmin(admin.ModelAdmin):
     readonly_fields = ('date_created', 'date_updated')
 
     def get_readonly_fields(self, request, obj=None):
+        if obj and request.user.role == 'support':
+            return self.readonly_fields + ('contract', 'support_contact',)
         if obj:  # editing an existing object
             return self.readonly_fields + ('contract',)
         return self.readonly_fields
@@ -114,11 +120,15 @@ class EventAdmin(admin.ModelAdmin):
                 kwargs["queryset"] = Contract.objects.filter(
                     status=True, sales_contact=request.user, event__isnull=True)
             print(db_field.name)
+        if request.user.role == 'management':
+            if db_field.name == "contract":
+                kwargs["queryset"] = Contract.objects.filter(
+                    status=True, event__isnull=True)
 
-            # Customize foreygn key support_contact in addform for only display members with support role
-            if db_field.name == "support_contact":
-                print(db_field.name)
-                kwargs["queryset"] = Member.objects.filter(role='support', )
+        # Customize foreygn key support_contact in addform for only display members with support role
+        if db_field.name == "support_contact":
+            print(db_field.name)
+            kwargs["queryset"] = Member.objects.filter(role='support', )
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 # admin.site.register(Contract, ContractAdmin)

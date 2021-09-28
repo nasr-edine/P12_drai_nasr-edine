@@ -25,7 +25,8 @@ class MemberAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.is_staff = True
-        obj.set_password(obj.password)
+        if not change:
+            obj.set_password(obj.password)
         mgmt_group = Group.objects.get(name='management')
         sales_group = Group.objects.get(name='sales')
         support_group = Group.objects.get(name='support')

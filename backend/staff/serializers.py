@@ -6,7 +6,7 @@ from .models import Member
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ('id', 'username', 'email', 'password', 'first_name',
+        fields = ('id', 'email', 'password', 'first_name',
                   'last_name', 'phone', 'mobile', 'date_created', 'role', 'is_staff', 'is_superuser')
 
         extra_kwargs = {
@@ -17,5 +17,5 @@ class MemberSerializer(serializers.ModelSerializer):
 class MemberUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ('id', 'username', 'email', 'first_name',
+        fields = ('id', 'email', 'first_name',
                   'last_name', 'phone', 'mobile', 'date_created', 'role', 'is_staff', 'is_superuser')

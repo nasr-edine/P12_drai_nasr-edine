@@ -18,6 +18,11 @@ class MemberAdmin(admin.ModelAdmin):
     list_filter = ['role']
     # readonly_fields = ('date_created', 'password')
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # editing an existing object
+            return self.readonly_fields + ('password',)
+        return self.readonly_fields
+
     def save_model(self, request, obj, form, change):
         obj.is_staff = True
         obj.set_password(obj.password)
